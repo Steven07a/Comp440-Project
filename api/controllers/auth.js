@@ -4,7 +4,8 @@ import jwt from "jsonwebtoken";
 
 export const register = (req, res) => {
   // check for existing user
-  const querey = "Select * from user where email = ? or username = ?";
+  const querey =
+    "Select * from comp440_project.user where email = ? or username = ?";
   //console.log(querey)
   db.query(querey, [req.body.email, req.body.username], (err, data) => {
     if (err) return res.json(err);
@@ -15,7 +16,7 @@ export const register = (req, res) => {
     const hash = bcrypt.hashSync(req.body.password, salt);
 
     const querey =
-      "Insert into user (`username`, `password`, `firstname`, `lastname`, `email`) Values (?)";
+      "Insert into comp440_project.user (`username`, `password`, `firstname`, `lastname`, `email`) Values (?)";
     const values = [
       req.body.username,
       hash,
@@ -36,7 +37,7 @@ export const register = (req, res) => {
 
 export const login = (req, res) => {
   // check if user exist or not
-  const query = "Select * from user where username = (?)";
+  const query = "Select * from comp440_project.user where username = (?)";
 
   db.query(query, [req.body.username], (err, data) => {
     if (err) return res.json(err);

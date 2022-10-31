@@ -1,7 +1,14 @@
 .app {
     background-image: linear-gradient(135deg, #FFCF71 10%, #2376DD 100%);
+    display: flex;
+    justify-content: center;
     .container {
-
+        width: 1024px;
+        
+        .link {
+            text-decoration: none;
+        }
+        
         //Login and Register CSS
         .auth {
             display: flex;
@@ -45,5 +52,39 @@
             text-align: center;
             color: red;
         }
+    }
+
+    // NAVBAR
+    .navbar {
+        // position: absolute;
+        .container {
+            padding: 10px 0px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .logo {
+                width: 100px;
+            }
+            .links{
+                display: flex;
+                align-items: center;
+                gap: 10px; 
+                h6 {
+                    font-size: 20px;
+                    font-weight: 300;
+                }
+            }
+        }
+    }
+
+    // FOOTER
+    footer {
+        margin-top: 100px;
+        padding: 20px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
     }
 }

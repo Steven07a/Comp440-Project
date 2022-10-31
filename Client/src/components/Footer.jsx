@@ -2,8 +2,10 @@ import React from 'react'
 
 function Footer() {
   return (
-    <div>Footer</div>
-  )
+    <footer>
+      <span>Made by Steven Herrera, Evan and Jack Kouyoumdjian</span>
+    </footer>
+  );
 }
 
 export default Footer

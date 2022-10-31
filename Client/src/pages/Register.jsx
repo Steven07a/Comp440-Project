@@ -27,6 +27,7 @@ const Register = () => {
     if (inputs.confirmPassword === inputs.password) {
       try {
         const res = await axios.post("/auth/register", inputs);
+        console.log(res);
         navigate("/login");
       } catch (err) {
         setErrorMessage(err.response.data);
