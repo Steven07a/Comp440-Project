@@ -1,7 +1,3 @@
-<!-- # TODO: 
-part 3 of phase 1 needs to be done.
-I was on this video https://www.youtube.com/watch?v=0aPLk2e2Z3g ive watched up till 1:36:47 -->
-
 # Getting Started with Create React App
 Move to the directory called Client and run:
 ### `npm install`
