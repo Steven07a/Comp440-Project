@@ -5,6 +5,8 @@ This will install all dependensies for the client
 ### Open the api Directory and run `npm install`
 This will install all dependensies for the server side of this application
 
+### Make sure to have mySql open as well as Ampps open 
+
 ## Available Scripts
 ### In the Client directory, you can run: `npm start`
 Runs the app in the development mode.\
