@@ -1,43 +1,40 @@
-import React from 'react'
-import { useState } from 'react';
-import axios from "axios"
-
-
+import React from "react";
+import { useState } from "react";
+import axios from "axios";
 
 const Home = () => {
   const [hasRanOnce, setHasRanOnce] = useState(false);
-  const input = "../files/university.sql";
+  const [sqlFiles, setSqlFiles] = useState({
+    fileName: "\\university.sql",
+  });
 
-  const executeSqlFromFile = async(e) => {
-    console.log(input)
+  const executeSqlFromFile = async (inputs) => {
     try {
-      const res = await axios.get("executeFile/runFile", input);
+      const res = await axios.post("executeFile/runFile", inputs);
       console.log(res);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
+  };
 
-  const submitSqlCommands = (e) => {
+  const submitSqlCommands = async (e) => {
+    e.preventDefault();
     setHasRanOnce(true);
-    executeSqlFromFile(input);
+    executeSqlFromFile(sqlFiles);
+  };
 
-  }
+  console.log(__filename);
 
-  //console.log(commands);
-  
   return (
-    <div className='home'>
-      <div className='data'>
+    <div className="home">
+      <form className="data">
         <button onClick={submitSqlCommands}>
           Click me to execute SQL file
         </button>
-        <button>
-          Click me to see Data
-        </button>
-      </div>
+        <button>Click me to see Data</button>
+      </form>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
