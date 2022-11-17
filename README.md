@@ -1,28 +1,23 @@
-<!-- # TODO: 
-part 3 of phase 1 needs to be done.
-I was on this video https://www.youtube.com/watch?v=0aPLk2e2Z3g ive watched up till 1:36:47 -->
-
 # Getting Started with Create React App
-Move to the directory called Client and run:
-### `npm install`
-Open a second terminal and move to the directory called api and run:
+### Open the client Directory and run `npm install`
+This will install all dependensies for the client
 
-### `npm install`
-This will install all dependensies for both the server and client side of this application
+### Open the api Directory and run `npm install`
+This will install all dependensies for the server side of this application
+
+### Make sure to have mySql open as well as Ampps open 
 
 ## Available Scripts
-
-In the Client directory, you can run:
-
-### `npm start`
+### In the Client directory, you can run: `npm start`
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
-You may also see any lint errors in the console.
+You may also see any errors in the console.
 
-In the api directory, you can run:
-### `npm start`
+### Before running the server:
+Navigate to the package.json inside of the api folder and make sure the scripts has the following code "start": "nodemon index.js"
+### In the api directory, you can run: `npm start`
 Runs the server in development mode.
 The server will reload whenever changes are made.
 
@@ -42,7 +37,7 @@ Accsess point to entire app. This is where things like routing and global css ar
 CHANGE THIS FILE AT YOUR OWN RISK!
 
 ### `style.scss`
-CSS for entire project. Since the project is still really small ive decided to place all CSS in the same file (possible a bad idea) I will change this later if the project grows.
+CSS for entire project. Since the project is still really small ive decided to place all CSS in the same file (possibly a bad idea) I will change this later if the project grows.
 
 ### `context`
 This is a way to pass state from page to page allowing us to save user information 
@@ -50,7 +45,7 @@ This is a way to pass state from page to page allowing us to save user informati
 ## api Folder Heiarchy 
 
 ### `controllers` 
-This is where the raw sql commands/functions are as more things get added we would add to this file for example if we were making a movie app we would add a move.js controller
+This is where the raw sql commands/functions are as more things get added we would add to this file
 
 ### `routes`
 Routes is where we can import the functions from controller and define them as post/get funcitons
@@ -60,6 +55,8 @@ This is where the db information/connection happens if your informaiton happens 
 
 ### `index`
 Index is our entry point into the backend basically this is the App.js equivilant to the backend any api changes that need to be made globally such as imports, new routes would go here.
+### `Files`
+Where we will store any .sql files
 
 ## Proxy/Ports
 ### `Current port setup`

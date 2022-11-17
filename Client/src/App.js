@@ -25,6 +25,7 @@ const Layout = () => {
 
 const router = createBrowserRouter([
   {
+    // all children of this function will have a navbar and footer around them 
     path: "/",
     element: <Layout />,
     children: [

@@ -23,12 +23,10 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // const res = await axios.post("/auth/login", inputs);
       await login(inputs);
       navigate("/");
     } catch (err) {
       setErrorMessage(err.response.data);
-      // console.log(err.response.data);
     }
   };
 
