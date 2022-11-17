@@ -13,6 +13,7 @@ function Navbar() {
           <img src={Logo} width="200" alt="Logo image" />
         </div>
         <div className="links">
+          <div><h6>{currentUser?.username}</h6></div>
           <Link className="link" to="/">
             <h6>Home</h6>
           </Link>
@@ -22,8 +23,6 @@ function Navbar() {
           <Link className="link" to="/temp2">
             <h6>Temp2</h6>
           </Link>
-
-          <div>{currentUser?.username}</div>
           {currentUser ? (
             <Link className="link" onClick={logout}>
               Logout
