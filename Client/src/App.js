@@ -8,6 +8,7 @@ import {
 
 import { useContext } from "react";
 import { AuthContext } from "../src/context/authContext";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 import Register from "./pages/Register"
 import Login from "./pages/Login"
 import Home from "./pages/Home"

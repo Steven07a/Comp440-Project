@@ -1,9 +1,17 @@
+ul {
+    padding: 0px;
+}
+li {
+    width: 800px;
+    list-style-type: none;
+    margin-bottom: 16px;
+}
 .app {
     background-image: linear-gradient(135deg, #FFCF71 10%, #2376DD 100%);
     display: flex;
     justify-content: center;
     overflow: hidden;
-    height: 100vh;
+    //height: 100vh;
     .container {
         width: 100%;
         .link {
@@ -44,14 +52,14 @@
         }
 
         span {
-            font-size: 12px;
+            font-size: 20px;
             text-align: center;
         }
 
         p {
-            font-size: 12px;
-            text-align: center;
-            color: red;
+            font-size: 16px;
+            //text-align: center;
+            color: blue;
         }
     }
 
@@ -59,18 +67,19 @@
     .navbar {
         // position: absolute;
         .container {
-            padding: 10px 0px;
+            padding: 10px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            //justify-content: space-between;
             .logo {
                 width: 20%;
             }
             .links{
-                width: 80%;
+                //width: 80%;
                 display: flex;
+                //margin-top: 48px;
                 align-items: center;
-                justify-content: space-between;
+                //justify-content: space-between;
                 gap: 10px; 
                 padding-right: 30px;
                 padding-left: 30px;
@@ -90,7 +99,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        position: fixed;
+        //position: fixed;
         bottom: 0;
     }
 
@@ -99,7 +108,7 @@
     .home {
         padding: 10px;
         display: flex;
-        justify-content: center;
+        //justify-content: center;
         height: 80%;
         align-items: top;
         

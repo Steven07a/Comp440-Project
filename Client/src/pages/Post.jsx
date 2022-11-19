@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
 const Post = () => {
   const getPostData = async (e) => {
@@ -21,8 +23,61 @@ const Post = () => {
       <form className="data">
         <button onClick={getPostData}>Get Data</button>
         <ul className="blogPost">
-            {/* looks like the best way to go about this would be to use react bootstrap cards inside of a ul  */}
-            <li>asd</li>
+          <li>
+            <Card>
+              <Card.Header as="h5">2020-03-15</Card.Header>
+              <Card.Body>
+                <Card.Title>Hello World</Card.Title>
+                <Card.Text>
+                  Hey everyone, this is my first blog. Hello world and all who inhabit it!
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </li>
+          <li>
+            <Card>
+              <Card.Header as="h5">2020-03-17</Card.Header>
+              <Card.Body>
+                <Card.Title>I love cats!</Card.Title>
+                <Card.Text>
+                  Cats are amazing. They're awesome, and fuzzy, and cute. Who DOESN'T love cats?
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </li>
+          <li>
+            <Card>
+              <Card.Header as="h5">2020-03-19</Card.Header>
+              <Card.Body>
+                <Card.Title>Dogs are the best.</Card.Title>
+                <Card.Text>
+                  So I saw a post the other day talking about cats. Now, I love cats. They're great. But here's the thing: dogs are just the best, okay? There's no question about it. That is all.
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </li>
+          <li>
+            <Card>
+              <Card.Header as="h5">2020-03-24</Card.Header>
+              <Card.Body>
+                <Card.Title>I am the night.</Card.Title>
+                <Card.Text>
+                  To all you lowly criminals out there, this is a warning to know I am watching. I am justice. I am righteousness. I am the NIGHT.
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </li>
+          <li>
+            <Card>
+              <Card.Header as="h5">2020-03-31</Card.Header>
+              <Card.Body>
+                <Card.Title>Waka waka</Card.Title>
+                <Card.Text>
+                  waka waka waka waka waka waka waka waka waka waka waka waka waka waka waka waka
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </li>
         </ul>
       </form>
     </div>
@@ -30,3 +85,5 @@ const Post = () => {
 };
 
 export default Post;
+
+
