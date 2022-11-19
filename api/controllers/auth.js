@@ -5,21 +5,21 @@ import jwt from "jsonwebtoken";
 export const register = (req, res) => {
   // check for existing user
   const querey =
-    "Select * from comp440_project.user where email = ? or username = ?";
+    "Select * from users where email = ? or username = ?";
   //console.log(querey)
   db.query(querey, [req.body.email, req.body.username], (err, data) => {
     if (err) return res.json(err);
     if (data.length) return res.status(409).json("User already exist");
 
-    //Hash the password and create a user
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(req.body.password, salt);
+    // //Hash the password and create a user
+    // const salt = bcrypt.genSaltSync(10);
+    // const hash = bcrypt.hashSync(req.body.password, salt);
 
     const querey =
-      "Insert into comp440_project.user (`username`, `password`, `firstname`, `lastname`, `email`) Values (?)";
+      "Insert into users (`username`, `password`, `firstname`, `lastname`, `email`) Values (?)";
     const values = [
       req.body.username,
-      hash,
+      req.body.password,
       req.body.firstname,
       req.body.lastname,
       req.body.email,
@@ -37,17 +37,20 @@ export const register = (req, res) => {
 
 export const login = (req, res) => {
   // check if user exist or not
-  const query = "Select * from comp440_project.user where username = (?)";
+  const query = "Select * from users where username = (?)";
 
   db.query(query, [req.body.username], (err, data) => {
     if (err) return res.json(err);
     if (data.length == 0) return res.status(404).json("User not found!");
 
-    // check password
-    const isPaswordCorrect = bcrypt.compareSync(
-      req.body.password,
-      data[0].password
-    );
+    // // check password against hashed version
+    // const isPaswordCorrect = bcrypt.compareSync(
+    //   req.body.password,
+    //   data[0].password
+    // );
+
+    // check raw password vs raw password
+    const isPaswordCorrect = (data[0].password == req.body.password); 
 
     if (!isPaswordCorrect)
       return res.status(400).json("Wrong username or password!");

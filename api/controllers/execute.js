@@ -12,3 +12,12 @@ export const runFile = (req, res) => {
     return res.status(200).json("Database Init has finished");
   });
 };
+
+export const getBlogsAndBlogID = (req,res) => {
+  const sqlStatement =
+    "SELECT blogs.*, blogstags.tag FROM blogs Inner join blogstags on blogs.blogid = blogstags.blogid;";
+    db.query(sqlStatement, (err, data) => {
+      if(err) return res.json(err);
+      return res.status(200).json(data);
+    })
+}
