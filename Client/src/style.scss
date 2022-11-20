@@ -19,7 +19,7 @@ li {
         }
         
         //Login and Register CSS
-        .auth {
+        .auth, .MakePost{
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -36,7 +36,7 @@ li {
             display: flex;
             flex-direction: column;
             padding: 10px;
-            width: 200px;
+            width: 400px;
             gap: 10px;
         }
 
@@ -115,6 +115,5 @@ li {
     }
     .data {
         display: flex;
-        
     }
 }

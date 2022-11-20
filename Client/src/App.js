@@ -13,6 +13,7 @@ import Register from "./pages/Register"
 import Login from "./pages/Login"
 import Home from "./pages/Home"
 import Post from "./pages/Post";
+import CreatePost from "./pages/CreatePost";
 import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
 import "./style.scss"
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
     path: "Register",
     element: <Register />,
   },
+  {
+    path: "CreatePost",
+    element: <CreatePost />,
+  }
 ]);
 
 function App() {

@@ -1,20 +1,31 @@
-import React from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext, logout } from "../context/authContext";
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
 const Post = () => {
+  var cardInfo = {}
+  const navigate = useNavigate();
+  const { currentUser, logout } = useContext(AuthContext);
   const getPostData = async (e) => {
     e.preventDefault();
     try {
-        const res = await axios.get("executeFile/getBlogsAndBlogID")
-        console.log(res.data);
+      const res = await axios.get("executeFile/getBlogsAndBlogID")
+      console.log(res.data);
     } catch (err) {
-        console.log(err);
+      console.log(err);
     }
   }
+
+  const goToCreate = (e) => {
+    e.preventDefault();
+    navigate("/CreatePost");
+  }
+
+
   // Progress: currently am able to get backend data from blogs table 
   // TODO: implement way to display blogs data current idea is to do it with cards 
 
@@ -22,6 +33,7 @@ const Post = () => {
     <div className="post">
       <form className="data">
         <button onClick={getPostData}>Get Data</button>
+        {currentUser ? (<button onClick={goToCreate}>Create a Post</button>):(<h6>Log in to Create a post</h6>)}
         <ul className="blogPost">
           <li>
             <Card>
@@ -76,7 +88,7 @@ const Post = () => {
                   waka waka waka waka waka waka waka waka waka waka waka waka waka waka waka waka
                 </Card.Text>
               </Card.Body>
-            </Card>
+            </Card> 
           </li>
         </ul>
       </form>
