@@ -11,11 +11,12 @@ const Post = () => {
   const getPostData = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.get("executeFile/getBlogsAndBlogID");
+      const res = await axios.get("post/getBlogsAndBlogID");
+      // converts dates to yyyy,mm,dd format
+      console.log(res)
       for (const dates of res.data) {
-        dates.pdate = Date(dates.pdate).toString().slice(0, 10);
+        dates.pdate = dates.pdate.toString().slice(0, 10);
       }
-      console.log(res.data);
       setCardInfo(res.data);
     } catch (err) {
       console.log(err);
@@ -23,8 +24,7 @@ const Post = () => {
   };
 
   const clickCard = (index) => {
-    console.log(index)
-    navigate("/post?id=" + index);
+    navigate("/post/" + index);
   }
 
   //function to render the cards using db data
@@ -48,6 +48,7 @@ const Post = () => {
   return (
     <div className="post">
       <form className="data">
+        <ul className="blogPost">{renderCard()}</ul>
         <button onClick={getPostData}>Get Data</button>
       </form>
     </div>

@@ -12,24 +12,3 @@ export const runFile = (req, res) => {
     return res.status(200).json("Database Init has finished");
   });
 };
-
-export const getBlogsAndBlogID = (req,res) => {
-    const sqlStatement =
-      "SELECT blogs.*, group_concat(blogstags.tag) as tags FROM blogs Inner join blogstags on blogs.blogid = blogstags.blogid group by blogstags.blogid;";
-    db.query(sqlStatement, (err, data) => {
-      if(err) return res.json(err);
-      return res.status(200).json(data);
-    })
-}
-
-export const getBlog = (req,res) => {
-  const sqlStatement = 
-  "Select t.* from (SELECT blogs.*, group_concat(blogstags.tag) as tags FROM blogs Inner join blogstags on blogs.blogid = blogstags.blogid group by blogstags.blogid) as t where blogid = ?;"
-  console.log(req.query.id)
-  db.query(sqlStatement, req.query, (err, data) => {
-    if(err) return res.json(err);
-    console.log(data);
-    res.console(data);
-    // return res.status(200).json(data);
-  })
-}
