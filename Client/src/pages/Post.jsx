@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -49,7 +49,6 @@ const Post = () => {
     <div className="post">
       <form className="data">
         <button onClick={getPostData}>Get Data</button>
-        <ul className="blogPost">{renderCard()}</ul>
       </form>
     </div>
   );

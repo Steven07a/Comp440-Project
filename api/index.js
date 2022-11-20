@@ -2,6 +2,7 @@ import express from "express";
 import usersRoutes from "./routes/users.js"
 import authRoutes from "./routes/auth.js"
 import fileRoutes from "./routes/execute.js"
+import postRoutes from "./routes/post.js"
 import cookieParser from "cookie-parser"
 
 
@@ -15,6 +16,7 @@ app.use(cookieParser())
 app.use("/api/users", usersRoutes)
 app.use("/api/auth", authRoutes)
 app.use("/api/executeFile", fileRoutes)
+app.use("/api/post", postRoutes)
 
 // Which port to use for server
 app.listen(3001, () => {
