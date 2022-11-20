@@ -116,4 +116,9 @@ li {
     .data {
         display: flex;
     }
+
+    .cardHeader {
+        display:flex;
+        justify-content: space-between;
+    }
 }
