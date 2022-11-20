@@ -1,14 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AuthContext } from "../context/authContext";
+import axios from "axios";
 
 const CreatePost = () => {
-    const [value, setValue] = useState("");
-    const [subject, setSubject] = useState("");
-    const [description, setDescription] = useState("");
-    const [pdate, setDate] = useState("");
-    const [created_by, setUser] = useState("");
+    const { currentUser } = useContext(AuthContext);
+    const [inputs, setInputs] = useState({
+        blogid: "",
+        subject: "",
+        description: "",
+        pdate: "",
+        created_by: "",
+      });
 
     const [errorMessage, setErrorMessage] = useState("");
     const handleClick = async e=>{ e.preventDefault()}
+    const handleChange = (e) => {
+        setInputs((prev) => ({
+          ...prev,
+          [e.target.name]: e.target.value,
+          pdate: "2022-11-20",
+          created_by: currentUser?.username,
+          blogid: 11,
+        }));
+      };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await axios.post("/post/CreatePost", inputs);
+            console.log(res);
+        } catch (err) {
+            setErrorMessage(err.response.data);
+        }
+    }
 
     return (
         <div className="MakePost">
@@ -19,16 +43,16 @@ const CreatePost = () => {
               required
               type="text"
               placeholder="Name of Post"
-              onChange={e=>setSubject(e.target.value)}
+              onChange={handleChange}
             />
             <textarea
               name="description"
               required
               type="text"
               placeholder="Tell us about your post"
-              onChange={e=>setSubject(e.target.value)}
+              onChange={handleChange}
             />
-            <button>Post</button>
+            <button onClick={handleSubmit}>Post</button>
             {errorMessage && <p>{errorMessage}</p>}
           </form>
         </div>
