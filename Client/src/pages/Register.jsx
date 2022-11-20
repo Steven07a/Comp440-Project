@@ -31,7 +31,6 @@ const Register = () => {
         navigate("/login");
       } catch (err) {
         setErrorMessage(err.response.data);
-        // console.log(err.response.data);
       }
     } else {
       setErrorMessage("check password and try again.");

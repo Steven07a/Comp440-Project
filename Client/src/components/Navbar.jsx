@@ -17,19 +17,19 @@ function Navbar() {
           <Link className="link" to="/">
             <h6>Home</h6>
           </Link>
-          <Link className="link" to="/temp1">
-            <h6>Temp1</h6>
+          <Link className="post" to="/post">
+            <h6>Post</h6>
           </Link>
           <Link className="link" to="/temp2">
             <h6>Temp2</h6>
           </Link>
           {currentUser ? (
             <Link className="link" onClick={logout}>
-              Logout
+              <h6>Logout</h6>
             </Link>
           ) : (
             <Link classname="link" to="/login">
-              Login
+              <h6>Login</h6>
             </Link>
           )}
         </div>
