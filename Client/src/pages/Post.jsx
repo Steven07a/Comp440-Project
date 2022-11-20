@@ -2,10 +2,12 @@ import React, { useContext } from "react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/authContext";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
 const Post = () => {
+  const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const [cardInfo, setCardInfo] = useState([]);
   const getPostData = async (e) => {
@@ -23,6 +25,11 @@ const Post = () => {
     }
   };
 
+  const goToCreate = (e) => {
+    e.preventDefault();
+    navigate("/CreatePost");
+  }
+
   const clickCard = (index) => {
     navigate("/post/" + index);
   }
@@ -34,7 +41,7 @@ const Post = () => {
         <Card onClick={() => clickCard(post.blogid)} key={index}>
           <Card.Header className="cardHeader">
             <h5>{post.pdate} </h5>
-            <h5>Tags:{post.tags}</h5>
+            <h5>Tags: {post.tags}</h5>
           </Card.Header>
           <Card.Body>
             <Card.Title>{post.subject}</Card.Title>
@@ -48,8 +55,9 @@ const Post = () => {
   return (
     <div className="post">
       <form className="data">
-        <ul className="blogPost">{renderCard()}</ul>
+        {currentUser ? (<button onClick={goToCreate}>Create a Post</button>):(<h6>Log in to Create a post</h6>)}
         <button onClick={getPostData}>Get Data</button>
+        <ul className="blogPost">{renderCard()}</ul>
       </form>
     </div>
   );

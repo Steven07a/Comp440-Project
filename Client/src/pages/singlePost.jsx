@@ -9,15 +9,6 @@ export default function SinglePost() {
   const location = useLocation();
   const postId = location.pathname.split("/")[2];
 
-  const displayDate = () => {
-     var date = post.pdate.toString().slice(0, 10);
-     return (
-        <>
-        {date}
-        </>
-     )
-  }
-
   // Funciton is called whenever variable is changed
   useEffect(() => {
     const fetchData = async () => {
@@ -35,11 +26,11 @@ export default function SinglePost() {
   return (
     <div className="singlePost">
       {/* This code here checks if the current user is the one who made the post if so allow them to edit the post */}
-      {currentUser?.username == post.created_by ? <button>Edit post</button> : <></>}
       <h1>{post.created_by}</h1>
       <h2>Subject: {post.subject}</h2>
-      <h3>{displayDate()}</h3>
+      {/*<h3>{displayDate()}</h3>*/}
       <p>{post.description}</p>
+      {currentUser?.username == post.created_by ? <button>Edit post</button> : <></>}
     </div>
   );
 }
