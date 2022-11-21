@@ -12,10 +12,19 @@ export default function SinglePost() {
   const [inputs, setInputs] = useState({
     comments: "",
     sentiment: "negative",
+    username: "",
+    date: "",
+    blogID: "",
   });
   const location = useLocation();
   const postId = location.pathname.split("/")[2];
-
+  var today = new Date();
+  const date =
+    today.getFullYear() +
+    "-" +
+    String(today.getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(today.getDate());
   // Funciton is called whenever variable is changed
   useEffect(() => {
     const fetchPostData = async () => {
@@ -41,7 +50,7 @@ export default function SinglePost() {
 
     fetchComments();
 
-  }, [postId]);
+  }, []);
 
   const renderComments = () => {
     
@@ -55,6 +64,28 @@ export default function SinglePost() {
         </p>
       </div>
     ));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      console.log(inputs);
+      const res = await axios.post("/post/addComment", inputs);
+      console.log(res);
+    } catch (err) {
+      console.log(err)
+    }
+  };
+
+  const handleChange = (e) => {
+        setInputs((prev) => ({
+      ...prev, 
+      [e.target.name]: e.target.value,
+      username: currentUser.username,
+      date: date,
+      blogID: postId
+      
+    }));
   };
 
   const handleToggle = () => {
@@ -90,16 +121,16 @@ export default function SinglePost() {
           <Card.Header>Recent Comments</Card.Header>
           <Card.Body>
             {renderComments()}
-            <div className="inputComment">
-              <input></input>
+            {currentUser.username !== post.created_by && <div className="inputComment">
+              <input name="comments" onChange={handleChange}></input>
               <BootstrapSwitchButton
                 width={150}
                 onlabel="Positive"
                 offlabel="Negative"
                 onChange={handleToggle}
               ></BootstrapSwitchButton>
-              <button className="submitComment">submit comment</button>
-            </div>
+              <button className="submitComment" onClick={handleSubmit}>submit comment</button>
+            </div>}
           </Card.Body>
         </Card>
       </div>

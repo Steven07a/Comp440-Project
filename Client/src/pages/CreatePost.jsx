@@ -1,27 +1,34 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/authContext";
 import axios from "axios";
+import moment from "react-moment"
 
 const CreatePost = () => {
     const { currentUser } = useContext(AuthContext);
     const [inputs, setInputs] = useState({
-        blogid: "",
         subject: "",
         description: "",
         pdate: "",
         created_by: "",
+        tags: "",
       });
 
     const [errorMessage, setErrorMessage] = useState("");
     const handleClick = async e=>{ e.preventDefault()}
     const handleChange = (e) => {
-      console.log(Date().toString())  
+      var today = new Date();
+      var date =
+        today.getFullYear() +
+        "-" +
+        String(today.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(today.getDate());
+      
       setInputs((prev) => ({
           ...prev,
           [e.target.name]: e.target.value,
-          pdate: "2022-11-20",
+          pdate: date,
           created_by: currentUser?.username,
-          blogid: 11,
         }));
       };
 
@@ -44,6 +51,13 @@ const CreatePost = () => {
               required
               type="text"
               placeholder="Name of Post"
+              onChange={handleChange}
+            />
+            <input
+              name="tags"
+              required
+              type="text"
+              placeholder="tags"
               onChange={handleChange}
             />
             <textarea

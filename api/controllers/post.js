@@ -2,8 +2,21 @@ import db from "../db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+// NOTE TO SELF QUERIES MUST BE NESTED TO MAKE SURE IT STOPS ON ERROR
 export const post = (req, res) => {
+  var blogId;
+  var blogTagsValues = [];
 
+  // returns an error if user has made more then 2 post today
+  const q1 =
+    "SELECT * FROM blogs, users WHERE blogs.created_by = users.username AND users.username = ? AND blogs.pdate = ? ";
+  db.query(q1, [req.body.created_by, req.body.pdate], (err, data) => {
+    if (err) return res.json(err);
+    // console.log(data)
+    if (data.length > 2)
+      return res.status(409).json("user has reached post limit");
+
+    // create query and insert into blogs post
     const querey =
       "Insert into blogs (`subject`, `description`, `pdate`, `created_by`) Values (?)";
     const values = [
@@ -13,14 +26,39 @@ export const post = (req, res) => {
       req.body.created_by,
     ];
 
-    console.log(values)
-
     db.query(querey, [values], (err, data) => {
       if (err) return res.json(err);
+      //console.log(data)
 
-      return res.status(200).json("Blog posted");
+      // run a query to get the users post id
+      const q2 = "Select MAX(blogid) as blogid from blogs where created_by = ?";
+      db.query(q2, [req.body.created_by], (err, data) => {
+        if(err) return res.status(409).json(err);
+
+        if (data.length) {
+          blogId = data[0].blogid;
+        } else {
+          blogId = 0;
+        }
+        const tagsList = req.body.tags.split(",");
+
+        console.log(blogId);
+        // inserting blogtags with the corresponding id
+        for (var i = 0; i < tagsList.length; i++) {
+          blogTagsValues.push([blogId, tagsList[i]]);
+        }
+        console.log(blogTagsValues);
+        const q3 = "Insert INTO blogstags values ?;";
+        db.query(q3, [blogTagsValues],
+          (err, data) => {
+            if (err) return console.log(err);
+            return res.status(200).json("Blog posted");
+          }
+        );
+      });
     });
-  };
+  });
+};
 
 export const getBlogsAndBlogID = (req, res) => {
   const sqlStatement =
@@ -45,6 +83,19 @@ export const getBlogComments = (req, res) => {
     "SELECT * FROM comp440_project_test.comments where blogid = ?;";
   db.query(sqlStatement, [req.params.id], (err, data) => {
     if (err) return res.json(err);
+    return res.status(200).json(data);
+  });
+};
+
+export const addComments = (req, res) => {
+  const sqlStatement =
+    "SELECT Comments.Blogid, Comments.cdate, Comments.posted_by, Blogs.created_by FROM Blogs, Users, Comments WHERE Comments.posted_by = ? AND Comments.cdate = ?;";
+  // run a query looking for any comments made by this user on this post on this day.
+  db.query(sqlStatement, [req.body.username, req.body.date], (err, data) => {
+    if (err) return res.json(err);
+    if (data.length >= 2)
+      return res.status(409).json("comment limit has been reached");
+    console.log("made it to here");
     return res.status(200).json(data);
   });
 };
