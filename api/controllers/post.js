@@ -41,3 +41,34 @@ export const getBlog = (req, res) => {
   });
 };
 
+export const getNumBlogsPostedByUserToday = (req, res) => {
+  const values = [
+    req.body.created_by,
+    req.body.pdate,
+  ];
+  const sqlStatement = "Select count(*) as NumOfPosts from blogs where created_by = 'created_by' and pdate = 'pdate';";
+  console.log(values)
+  db.query(sqlStatement, [values], (err, data) => {
+    if (err) return res.json(err);
+    return res.status(200).json(data);
+  });
+}
+
+export const postBlogComment = (req, res) => {
+  const values = [
+    req.body.sentiment,
+    req.body.description,
+    req.body.cdate,
+    req.body.blogid,
+    req.body.posted_by,
+  ];
+  const sqlStatement = 
+    "Insert into comments ('sentiment','description','cdate','blogid','posted_by') Values (?);";
+  
+  console.log(values)
+
+  db.query(sqlStatement, [values], (err,data) => {
+    if (err) return res.json(err);
+    return res.status(200).json("Comment osted");
+  });
+};
