@@ -15,7 +15,8 @@ const CreatePost = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const handleClick = async e=>{ e.preventDefault()}
     const handleChange = (e) => {
-        setInputs((prev) => ({
+      console.log(Date().toString())  
+      setInputs((prev) => ({
           ...prev,
           [e.target.name]: e.target.value,
           pdate: "2022-11-20",

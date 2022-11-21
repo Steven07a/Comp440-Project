@@ -5,9 +5,8 @@ import jwt from "jsonwebtoken";
 export const post = (req, res) => {
 
     const querey =
-      "Insert into blogs (`blogid`, `subject`, `description`, `pdate`, `created_by`) Values (?)";
+      "Insert into blogs (`subject`, `description`, `pdate`, `created_by`) Values (?)";
     const values = [
-      req.body.blogid,
       req.body.subject,
       req.body.description,
       req.body.pdate,
@@ -41,3 +40,11 @@ export const getBlog = (req, res) => {
   });
 };
 
+export const getBlogComments = (req, res) => {
+  const sqlStatement =
+    "SELECT * FROM comp440_project_test.comments where blogid = ?;";
+  db.query(sqlStatement, [req.params.id], (err, data) => {
+    if (err) return res.json(err);
+    return res.status(200).json(data);
+  });
+};
