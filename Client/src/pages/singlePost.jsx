@@ -55,7 +55,7 @@ export default function SinglePost() {
   const renderComments = () => {
     
     return postComments.map((comment,index) => ( 
-      <div className="comments mt-4 text-justify float-left">
+      <div className="comments">
         <h4>{comment.posted_by}</h4>
         <span>{comment.cdate.toString().split(0,5)}</span>
         <br />

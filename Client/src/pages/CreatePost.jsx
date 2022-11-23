@@ -37,6 +37,7 @@ const CreatePost = () => {
         try {
             const res = await axios.post("/post/CreatePost", inputs);
             console.log(res);
+            
         } catch (err) {
             setErrorMessage(err.response.data);
         }

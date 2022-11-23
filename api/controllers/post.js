@@ -87,15 +87,30 @@ export const getBlogComments = (req, res) => {
   });
 };
 
-export const addComments = (req, res) => {
-  const sqlStatement =
-    "SELECT Comments.Blogid, Comments.cdate, Comments.posted_by, Blogs.created_by FROM Blogs, Users, Comments WHERE Comments.posted_by = ? AND Comments.cdate = ?;";
+export const addComment = (req, res) => {
+
   // run a query looking for any comments made by this user on this post on this day.
-  db.query(sqlStatement, [req.body.username, req.body.date], (err, data) => {
+  const sqlStatement1 =
+    "SELECT comments.blogid, comments.cdate, comments.posted_by, blogs.created_by FROM blogs, users, comments WHERE comments.posted_by = ? AND comments.cdate = ?;";
+  db.query(sqlStatement1, [req.body.posted_by, req.body.cdate], (err, data) => {
     if (err) return res.json(err);
     if (data.length >= 2)
       return res.status(409).json("comment limit has been reached");
-    console.log("made it to here");
-    return res.status(200).json(data);
+    console.log("Comment OK");
+
+    //run query to insert comments if above check passes
+    const sqlStatement2 =
+      "Insert into comments (`sentiment`, `description`, `cdate`, 'blogid', `posted_by`) Values (?)";
+    const values = [
+      req.body.sentiment,
+      req.body.description,
+      req.body.cdate,
+      req.body.blogid,
+      req.body.posted_by,
+    ];
+    db.query(sqlStatement2, [values], (err, data) => {
+      if (err) return res.json(err);
+      return res.status(200).json(data);
+    });
   });
 };
