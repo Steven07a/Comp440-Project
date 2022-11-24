@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -24,6 +24,7 @@ const Post = () => {
       console.log(err);
     }
   };
+  
 
   const goToCreate = (e) => {
     e.preventDefault();
@@ -38,7 +39,7 @@ const Post = () => {
   const renderCard = () => {
     return cardInfo.map((post, index) => (
       <li>
-        <Card onClick={() => clickCard(post.blogid)} key={index}>
+        <Card className="cards" onClick={() => clickCard(post.blogid)} key={index}>
           <Card.Header className="cardHeader">
             <h5>{post.pdate} </h5>
             <h5>Tags: {post.tags}</h5>

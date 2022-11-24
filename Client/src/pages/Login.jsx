@@ -17,17 +17,25 @@ const Login = () => {
     setInputs((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
-      
     }));
+  };
+
+  const checkEmpty = () => {
+    const isEmpty = Object.values(inputs).every(Boolean);
+    return isEmpty;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await login(inputs);
-      navigate("/");
-    } catch (err) {
-      setErrorMessage(err.response.data);
+    if (checkEmpty()) {
+      try {
+        await login(inputs);
+        navigate("/");
+      } catch (err) {
+        setErrorMessage(err.response.data);
+      }
+    } else {
+      setErrorMessage("check input fields and try again");
     }
   };
 
