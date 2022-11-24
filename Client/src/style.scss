@@ -184,17 +184,21 @@ li {
         .container {
             padding: 10px;
             display: flex;
+
             align-items: center;
             //justify-content: space-between;
+
             .logo {
                 width: 20%;
             }
             .links{
                 //width: 80%;
                 display: flex;
+
                 //margin-top: 48px;
                 align-items: center;
                 //justify-content: space-between;
+
                 gap: 10px; 
                 padding-right: 30px;
                 padding-left: 30px;
