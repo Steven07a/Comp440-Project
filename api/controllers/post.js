@@ -87,16 +87,29 @@ export const getBlogComments = (req, res) => {
   });
 };
 
+//1st return all comments made by user this day from sql
+// Jack - Ok so first check if user has posted 3 comments today -> 409 comment limit reached
+// Jack - Then see if they have commented on this post already -> 409 already commented on this post
+// Jack - And finally the cant comment on their own blog
 export const addComment = (req, res) => {
   // run a query looking for any comments made by this user on this post on this day.
   const sqlStatement1 =
-    "SELECT comments.blogid, comments.cdate, comments.posted_by, blogs.created_by FROM blogs, users, comments WHERE comments.posted_by = ? AND comments.cdate = ?;";
+    "SELECT * FROM comments WHERE comments.posted_by = ? AND comments.cdate = ?;";
   db.query(sqlStatement1, [req.body.username, req.body.cdate], (err, data) => {
     if (err) return res.json(err);
     console.log(data);
-    if (data.length >= 2)
+    if (data.length >= 3)
       return res.status(409).json("comment limit has been reached");
-
+  });
+  //find the comment by this user on this post
+  const sqlStatement3 =
+    "SELECT * FROM comments WHERE comments.posted_by = ? AND cdate = ? AND blogid = ?";
+  db.query(sqlStatement3, [req.body.username, req.body.cdate, req.body.blogId], (err, data) => {
+    if (err) return req.json(err);
+    console.log(data);
+    if (data.length >= 1) {
+      return res.status(409).json("blog has already been commented on");
+    } else {
     //run query to insert comments if above check passes
     const sqlStatement2 =
       "Insert into comments (`sentiment`, `description`, `cdate`, `blogid`, `posted_by`) Values (?)";
@@ -111,6 +124,7 @@ export const addComment = (req, res) => {
     db.query(sqlStatement2, [values], (err, data) => {
       if (err) return res.json(err);
       return res.status(200).json(data);
-    });
+    });}
   });
+ 
 };
