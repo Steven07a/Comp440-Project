@@ -3,7 +3,7 @@ import React from "react";
 function Footer() {
   return (
     <footer>
-      <span>Made by Steven Herrera, Evan and Jack Kouyoumdjian</span>
+      <span>COMP440 &copy; Made by Steven Herrera, Evan Johnson, and Jack Kouyoumdjian</span>
     </footer>
   );
 }

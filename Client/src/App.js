@@ -3,18 +3,34 @@ import {
   RouterProvider,
   Route,
   Outlet,
+  useNavigate,
 } from "react-router-dom"
 
+import { useContext } from "react";
+import { AuthContext } from "../src/context/authContext";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 import Register from "./pages/Register"
 import Login from "./pages/Login"
 import Home from "./pages/Home"
+import Post from "./pages/Post";
+import CreatePost from "./pages/CreatePost";
+import SinglePost from "./pages/singlePost";
 import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
 import "./style.scss"
 
 
 const Layout = () => {
-  return(
+  // uncomment this code if u want to have user auth on all pages that are not login or register
+  // const { currentUser } = useContext(AuthContext);
+  // const navigate = useNavigate();
+  
+  // // does a check to see if the user is logged in
+  // if (!currentUser?.username) {
+  //   navigate("/login");
+  // }
+
+  return (
     <>
       <Navbar />
       <Outlet />
@@ -25,7 +41,7 @@ const Layout = () => {
 
 const router = createBrowserRouter([
   {
-    // all children of this function will have a navbar and footer around them 
+    // all children of this function will have a navbar and footer around them
     path: "/",
     element: <Layout />,
     children: [
@@ -33,7 +49,15 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
-    ]
+      {
+        path: "/post",
+        element: <Post />,
+      },
+      {
+        path: "/post/:id",
+        element: <SinglePost />,
+      },
+    ],
   },
   {
     path: "Login",
@@ -42,6 +66,10 @@ const router = createBrowserRouter([
   {
     path: "Register",
     element: <Register />,
+  },
+  {
+    path: "CreatePost",
+    element: <CreatePost />,
   },
 ]);
 

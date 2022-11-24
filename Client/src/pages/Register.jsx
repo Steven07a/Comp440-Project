@@ -22,16 +22,21 @@ const Register = () => {
     }));
   };
 
+  // function to check that all input fields are filled in
+  const checkEmpty = () => {
+    const isEmpty = Object.values(inputs).every(Boolean);
+    return isEmpty;
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (inputs.confirmPassword === inputs.password) {
+    if (inputs.confirmPassword === inputs.password && checkEmpty()) {
       try {
         const res = await axios.post("/auth/register", inputs);
         console.log(res);
         navigate("/login");
       } catch (err) {
         setErrorMessage(err.response.data);
-        // console.log(err.response.data);
       }
     } else {
       setErrorMessage("check password and try again.");
