@@ -9,7 +9,7 @@ export default function SinglePost() {
   const [post, setPost] = useState({});
   const { currentUser } = useContext(AuthContext);
   const [postComments, setPostComments] = useState([]);
-  const [errorMessage, setErrorMessage] = useState();
+  const [errorMessage, setErrorMessage] = useState("");
   const [inputs, setInputs] = useState({
     description: "",
     sentiment: "negative",
@@ -56,6 +56,16 @@ export default function SinglePost() {
     fetchComments();
   }, []);
 
+  useEffect(() => {
+    // loops through all comments and if the user has already commented on this post set variable to true
+    postComments.map((comment, index) => {
+      console.log(comment.posted_by);
+      if (comment.posted_by === currentUser.username) {
+        setErrorMessage("User has already commented");
+      }
+    });
+  }, [postComments])
+
   // redners the comments 
   const renderComments = () => {
     return postComments.map((comment, index) => (
@@ -70,12 +80,22 @@ export default function SinglePost() {
 
   // handles the submition of a comment and displays an error if there is one
   const handleSubmit = async (e) => {
-    //e.preventDefault();
-    try {
-      console.log(inputs);
-      const res = await axios.post("/post/addComment", inputs);
-    } catch (err) {
-      setErrorMessage(err.response.data);
+    e.preventDefault();
+
+    // checkes if user has commented on this post before if so set error
+    // postComments.map((comment, index) => {
+    //   if (comment.posted_by === currentUser.username) {
+    //     setErrorMessage("User has already commented")
+    //   }
+    // });
+
+    if(errorMessage == "") {
+      try {
+        //console.log(inputs);
+        const res = await axios.post("/post/addComment", inputs);
+      } catch (err) {
+        setErrorMessage(err.response.data);
+      }
     }
   };
 
@@ -88,6 +108,7 @@ export default function SinglePost() {
       cdate: date,
       blogid: postId,
     }));
+    console.log(errorMessage)
   };
 
   // handle if the comment is positive or negative
@@ -124,7 +145,8 @@ export default function SinglePost() {
           <Card.Header>Recent Comments</Card.Header>
           <Card.Body>
             {renderComments()}
-            {currentUser.username !== post.created_by && (
+            {/* shows comment input box only if the current logged in user is not on his own post */}
+            {(currentUser.username !== post.created_by) && (
               <div className="inputComment">
                 <input name="description" onChange={handleChange}></input>
                 {errorMessage && (
