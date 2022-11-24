@@ -69,7 +69,7 @@ const CreatePost = () => {
               onChange={handleChange}
             />
             <button onClick={handleSubmit}>Post</button>
-            {errorMessage && <p>{errorMessage}</p>}
+            {errorMessage && <p className="errorMessage">{errorMessage}</p>}
           </form>
         </div>
     );

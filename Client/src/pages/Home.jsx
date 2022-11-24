@@ -1,10 +1,13 @@
 import React from "react";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext, logout } from "../context/authContext";
 
 const Home = () => {
   const navigate = useNavigate();
+  const { currentUser, logout } = useContext(AuthContext);
+
   const [sqlFiles, setSqlFiles] = useState({
     fileName: "\\ProjDB.sql",
   });
@@ -21,6 +24,7 @@ const Home = () => {
   const submitSqlCommands = async (e) => {
     e.preventDefault();
     executeSqlFromFile(sqlFiles);
+    logout();
   };
 
   const goToPostPage = (e) => {

@@ -20,8 +20,8 @@ function Navbar() {
           <Link className="post" to="/post">
             <h6>Post</h6>
           </Link>
-          <Link className="link" to="/temp2">
-            <h6>Temp2</h6>
+          <Link className="link" to="/CreatePost">
+            <h6>create post</h6>
           </Link>
           {currentUser ? (
             <Link className="link" onClick={logout}>
