@@ -15,6 +15,7 @@ import Home from "./pages/Home"
 import Post from "./pages/Post";
 import CreatePost from "./pages/CreatePost";
 import SinglePost from "./pages/singlePost";
+import seql from "./pages/seql";
 import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
 import "./style.scss"
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
         path: "/post/:id",
         element: <SinglePost />,
       },
+      {
+        path: "/seql",
+        element: <seql />,
+      }
     ],
   },
   {

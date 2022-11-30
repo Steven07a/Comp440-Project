@@ -23,6 +23,9 @@ function Navbar() {
           <Link className="link" to="/CreatePost">
             <h6>create post</h6>
           </Link>
+          <Link className="link" to="/seql">
+            <h6>SQL</h6>
+          </Link>
           {currentUser ? (
             <Link className="link" onClick={logout}>
               <h6>Logout</h6>
