@@ -117,3 +117,35 @@ export const addComment = async (req, res) => {
       });
   });
 };
+
+//Jack - list all the blogs of user X such that all the comments are positive
+//    going to break this down into 2 calls, get all of Xs blogs and then all positive comments for a blog
+export const getAllBlogsFromUser = async (req, res) => {
+  sqlStatement = 
+    "SELECT * FROM blogs where created_by = ?;";
+  db.query(sqlStatement, [req.body.username], (err, data) => {
+    if(err) return res.json(err);
+    return res.status(200).json("all blogs from x");
+  });
+};
+
+export const getAllPosComments = async (req, res) => {
+  sqlStatement =
+    "SELECT * FROM comments WHERE sentiment = 'positive' AND blogid = ?;";
+  db.query(sqlStatement, [req.body.blogId], (err, data) => {
+    if(err) return res.json(err);
+    return res.status(200).json("all positive comments for blog x");
+  });
+};
+
+//Jack - get the count of comments from the top commenters
+//gonna do this by returning the count of comments in decending order sooo to get the top you need to iterate
+
+export const getTopCommenter = async (req, res) => {
+  sqlStatement =
+    "SELECT COUNT(posted_by) AS comment_count, posted_by FROM comments GROUP BY (posted_by) ORDER BY comment_count DESC;";
+  db.query(sqlStatement, (err, data) => {
+    if(err) return res.json(err);
+    return res.status(200).json("top commenter(s)");
+  });
+};
