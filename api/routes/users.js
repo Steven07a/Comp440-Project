@@ -5,9 +5,9 @@ import { getAllUsers, getUsersFollowedByXY, getUsersNeverPost,
 const router = express.Router()
 
 router.get("/getAllUsers", getAllUsers);
-router.get("/getUsersFollowedByXY", getUsersFollowedByXY);
-router.get("/getUsersNeverPost", getUsersNeverPost);
-router.get("/getUsersWithOnlyPositve", getUsersWithOnlyPositve);
-router.get("/getUsersMatchedHobbies", getUsersMatchedHobbies);
+router.post("/getUsersFollowedByXY", getUsersFollowedByXY);
+router.post("/getUsersNeverPost", getUsersNeverPost);
+router.post("/getUsersWithOnlyPositve", getUsersWithOnlyPositve);
+router.post("/getUsersMatchedHobbies", getUsersMatchedHobbies);
 
 export default router
