@@ -1,6 +1,6 @@
 import express from "express";
 import { post, getBlog, getBlogsAndBlogID, getBlogComments, addComment,
-     getAllBlogsFromUser, getAllPosComments, getTopCommenter } from "../controllers/post.js";
+     getAllBlogsFromUser, getTopCommenter} from "../controllers/post.js";
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ router.get("/getBlogsAndBlogID", getBlogsAndBlogID);
 router.get("/:id", getBlog);
 router.get("/comment/:id", getBlogComments);
 router.post("/addComment", addComment);
-router.get("/getAllBlogsFromUser", getAllBlogsFromUser);
-router.get("/getAllPosComments", getAllPosComments);
-router.get("/getTopCommenter", getTopCommenter);
+router.post("/getAllBlogsFromUser", getAllBlogsFromUser);
+router.post("/getTopCommenter", getTopCommenter);
+
 export default router;

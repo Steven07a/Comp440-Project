@@ -88,7 +88,6 @@ export const getBlogComments = (req, res) => {
 //1st return all comments made by user this day from sql
 // Jack - Ok so first check if user has posted 3 comments today -> 409 comment limit reached
 export const addComment = async (req, res) => {
-  
   // run a query looking for any comments made by this user on this post on this day.
   const sqlStatement1 =
     "SELECT * FROM comments WHERE comments.posted_by = ? AND comments.cdate = ?;";
@@ -96,56 +95,62 @@ export const addComment = async (req, res) => {
     if (err) return res.json(err);
 
     //console.log(data);
-    if (data.length >= 3) return res.status(409).json("comment limit has been reached");
+    if (data.length >= 3)
+      return res.status(409).json("comment limit has been reached");
 
     //run query to insert comments if above check passes
-      const sqlStatement2 =
-        "Insert into comments (`sentiment`, `description`, `cdate`, `blogid`, `posted_by`) Values (?)";
-      const values = [
-        req.body.sentiment,
-        req.body.description,
-        req.body.cdate,
-        req.body.blogid,
-        req.body.username,
-      ];
-      //console.log(values)
-      db.query(sqlStatement2, [values], (err, data) => {
-        if (err) {
-          return res.json(err);
-        }
-        return res.status(200).json("comment was posted");
-      });
+    const sqlStatement2 =
+      "Insert into comments (`sentiment`, `description`, `cdate`, `blogid`, `posted_by`) Values (?)";
+    const values = [
+      req.body.sentiment,
+      req.body.description,
+      req.body.cdate,
+      req.body.blogid,
+      req.body.username,
+    ];
+    //console.log(values)
+    db.query(sqlStatement2, [values], (err, data) => {
+      if (err) {
+        return res.json(err);
+      }
+      return res.status(200).json("comment was posted");
+    });
   });
 };
 
 //Jack - list all the blogs of user X such that all the comments are positive
 //    going to break this down into 2 calls, get all of Xs blogs and then all positive comments for a blog
 export const getAllBlogsFromUser = async (req, res) => {
-  sqlStatement = 
-    "SELECT * FROM blogs where created_by = ?;";
+  const sqlStatement = 
+  "SELECT blogs.*, comments.description AS comments, comments.sentiment, comments.posted_by FROM blogs INNER JOIN comments ON blogs.blogid = comments.blogid WHERE comments.sentiment = 'positive' and blogs.created_by = ?;";
+  // sqlStatement =
+  //   "SELECT * FROM blogs where created_by = ?;";
   db.query(sqlStatement, [req.body.username], (err, data) => {
-    if(err) return res.json(err);
-    return res.status(200).json("all blogs from x");
-  });
-};
-
-export const getAllPosComments = async (req, res) => {
-  sqlStatement =
-    "SELECT * FROM comments WHERE sentiment = 'positive' AND blogid = ?;";
-  db.query(sqlStatement, [req.body.blogId], (err, data) => {
-    if(err) return res.json(err);
-    return res.status(200).json("all positive comments for blog x");
+    if (err) return res.json(err);
+    return res.status(200).json(data);
   });
 };
 
 //Jack - get the count of comments from the top commenters
 //gonna do this by returning the count of comments in decending order sooo to get the top you need to iterate
 
-export const getTopCommenter = async (req, res) => {
-  sqlStatement =
+export const getTopCommenter = (req, res) => {
+  let values = [];
+  const sqlStatement =
     "SELECT COUNT(posted_by) AS comment_count, posted_by FROM comments GROUP BY (posted_by) ORDER BY comment_count DESC;";
   db.query(sqlStatement, (err, data) => {
-    if(err) return res.json(err);
-    return res.status(200).json("top commenter(s)");
+    if (err) return res.status(409).json(err);
+    console.log(data);
+    
+    let max = data[0].comment_count;
+    for(let i = 0; i < data.length; i++) {
+      if(data[i].comment_count != max) {
+        break;
+      } else {
+        values.push(data[i].posted_by);
+      }
+    }
+
+    return res.status(200).json(values);
   });
 };
