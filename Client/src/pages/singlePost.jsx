@@ -85,6 +85,8 @@ export default function SinglePost() {
       try {
         //console.log(inputs);
         const res = await axios.post("/post/addComment", inputs);
+        //reload the page to lock user out of commenting
+        window.location.reload(true);
       } catch (err) {
         setErrorMessage(err.response.data);
       }
