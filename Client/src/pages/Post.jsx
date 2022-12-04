@@ -7,29 +7,9 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
 const Post = () => {
-  const { currentUser } = useContext(AuthContext);
+  // const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const [cardInfo, setCardInfo] = useState([]);
-  const getPostData = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.get("post/getBlogsAndBlogID");
-      // converts dates to yyyy,mm,dd format
-      console.log(res)
-      for (const dates of res.data) {
-        dates.pdate = dates.pdate.toString().slice(0, 10);
-      }
-      setCardInfo(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  
-
-  const goToCreate = (e) => {
-    e.preventDefault();
-    navigate("/CreatePost");
-  }
 
   const clickCard = (index) => {
     navigate("/post/" + index);
@@ -53,11 +33,29 @@ const Post = () => {
     ));
   };
 
+  useEffect(() => {
+    const getPostData = async () => {
+      //e.preventDefault();
+      try {
+        const res = await axios.get("post/getBlogsAndBlogID");
+        // converts dates to yyyy,mm,dd format
+        console.log(res);
+        for (const dates of res.data) {
+          dates.pdate = dates.pdate.toString().slice(0, 10);
+        }
+        setCardInfo(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    getPostData();
+  }, []);
+
+
   return (
     <div className="post">
       <form className="data">
-        {currentUser ? (<button onClick={goToCreate}>Create a Post</button>):(<h6>Log in to Create a post</h6>)}
-        <button onClick={getPostData}>Get Data</button>
         <ul className="blogPost">{renderCard()}</ul>
       </form>
     </div>

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import { isAccordionItemSelected } from "react-bootstrap/esm/AccordionContext";
 
 const Seql = () => {
   const [inputs, setInputs] = useState({
@@ -15,6 +16,7 @@ const Seql = () => {
     user2: "catlover",
   };
   const [positiveComments, setPositiveComments] = useState([]);
+  const [matchedHobbies, setMatchedHobbies] = useState();
 
   // change handler this is what makes sure we have all the data
   const handleChange = (e) => {
@@ -30,6 +32,7 @@ const Seql = () => {
     try {
       const res = await axios.post("/post/getAllBlogsFromUser", inputs);
       setPositiveComments(res.data);
+      console.log(res.data)
     } catch (err) {
       console.log(err);
     }
@@ -80,12 +83,22 @@ const Seql = () => {
     e.preventDefault();
     try {
       const res = await axios.post("users/getUsersMatchedHobbies");
+      setMatchedHobbies(res.data);
       console.log(res.data);
     } catch (err) {
       console.log(err);
     }
   };
 
+  const renderResults = () => {
+
+    return matchedHobbies.map((item, index) => (
+    <>
+    <h2>{item.hobby}</h2>
+    <p style={{color: "black"}}>{item.usernames + ","}</p>
+    </>
+    ));
+  }
 
   return (
     <div className="seql">
@@ -96,6 +109,7 @@ const Seql = () => {
         <button onClick={getUsersNeverPosted}>Click to get users who have never posted</button>
         <button onClick={getUsersWithOnlyPositve}>Click to get users with only positive comments</button>
         <button onClick={getUsersMatchedHobbies}>Click to get users' matched hobbies</button>
+        {matchedHobbies && renderResults()}
       </form>
     </div>
   );

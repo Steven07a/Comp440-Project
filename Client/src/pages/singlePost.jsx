@@ -81,14 +81,6 @@ export default function SinglePost() {
   // handles the submition of a comment and displays an error if there is one
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // checkes if user has commented on this post before if so set error
-    // postComments.map((comment, index) => {
-    //   if (comment.posted_by === currentUser.username) {
-    //     setErrorMessage("User has already commented")
-    //   }
-    // });
-
     if(errorMessage == "") {
       try {
         //console.log(inputs);
