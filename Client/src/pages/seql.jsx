@@ -90,20 +90,12 @@ const Seql = () => {
   return (
     <div className="seql">
       <form className="data">
-        <input
-          type="text"
-          placeholder="Insert SQL statement"
-          name="username"
-          onChange={handleChange}
-        />
-        <button onClick={getPositiveComments}>Positive Comments</button>
-        <button onClick={getTopCommenter}>Get Top Commenter</button>
-        <button onClick={getUsersFollowedBy}>getUsersFollowedBy</button>
-        <button onClick={getUsersNeverPosted}>getUsersNeverPosted</button>
-        <button onClick={getUsersWithOnlyPositve}>
-          getUsersWithOnlyPositve
-        </button>
-        <button onClick={getUsersMatchedHobbies}>getUsersMatchedHobbies</button>
+        <button onClick={getPositiveComments}>Click to Display only positive comments</button>
+        <button onClick={getTopCommenter}>Click to show top commenter</button>
+        <button onClick={getUsersFollowedBy}>Click to get users who are followed by</button>
+        <button onClick={getUsersNeverPosted}>Click to get users who have never posted</button>
+        <button onClick={getUsersWithOnlyPositve}>Click to get users with only positive comments</button>
+        <button onClick={getUsersMatchedHobbies}>Click to get users' matched hobbies</button>
       </form>
     </div>
   );

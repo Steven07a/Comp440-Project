@@ -29,6 +29,9 @@ li {
             align-items: center;
             justify-content: center;
             height: 100vh;
+            button {
+                width: auto;
+            }
         }
         
         h1 {
@@ -40,14 +43,16 @@ li {
             display: flex;
             flex-direction: column;
             padding: 10px;
-            width: 400px;
+            width: auto;
             gap: 10px;
         }
 
         button {
             padding: 10px;
             border: none;
+            border-radius: 25px;
             background-color: #3512f8;
+            width: 250px;
             color: #FFFFFF;
             cursor: pointer;
         }
@@ -65,6 +70,15 @@ li {
             font-size: 16px;
             //text-align: center;
             color: blue;
+        }
+        .data {
+            margin: none;
+        }
+        .seql {
+            button {
+                width: 750px;
+                margin: auto;
+            }
         }
     }
     h6 {
@@ -176,9 +190,6 @@ li {
                 text-decoration: none;
             }
         }
-        .seql {
-            display: flex;
-        }
     }
 
     // NAVBAR
@@ -224,16 +235,14 @@ li {
 
 
     // HOME PAGE
-    .home {
+    .home, .post{
         padding: 10px;
         display: flex;
+        width: 400px;
         //justify-content: center;
         //height: 80%;
         align-items: top;
         
-    }
-    .data {
-        display: flex;
     }
 
     .cardHeader {

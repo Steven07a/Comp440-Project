@@ -17,7 +17,7 @@ function Navbar() {
           <Link className="link" to="/">
             <h6>Home</h6>
           </Link>
-          <Link className="post" to="/post">
+          <Link className="link" to="/post">
             <h6>Post</h6>
           </Link>
           <Link className="link" to="/CreatePost">
