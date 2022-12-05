@@ -28,7 +28,6 @@ export const post = (req, res) => {
 
     db.query(querey, [values], (err, data) => {
       if (err) return res.json(err);
-      //console.log(data)
 
       // run a query to get the users post id
       const q2 = "Select MAX(blogid) as blogid from blogs where created_by = ?";
@@ -118,16 +117,43 @@ export const addComment = async (req, res) => {
   });
 };
 
-//Jack - list all the blogs of user X such that all the comments are positive
-//    going to break this down into 2 calls, get all of Xs blogs and then all positive comments for a blog
+//gets all positive comments for a single blog + the blog its from
 export const getAllBlogsFromUser = async (req, res) => {
-  const sqlStatement = 
-  "SELECT blogs.*, comments.description AS comments, comments.sentiment, comments.posted_by FROM blogs INNER JOIN comments ON blogs.blogid = comments.blogid WHERE comments.sentiment = 'positive' and blogs.created_by = ?;";
-  // sqlStatement =
-  //   "SELECT * FROM blogs where created_by = ?;";
-  db.query(sqlStatement, [req.body.username], (err, data) => {
+  const sqlStatement =
+    "SELECT blogs.*, comments.description AS comments, comments.sentiment, comments.posted_by FROM blogs INNER JOIN comments ON blogs.blogid = comments.blogid WHERE comments.sentiment = 'positive' and blogs.created_by = ?;";
+  db.query(sqlStatement, [req.body.user1], (err, data) => {
     if (err) return res.json(err);
-    return res.status(200).json(data);
+    //console.log(data);
+    let cleanedData = [];
+    let blogPost = [];
+    let blogComments = [];
+
+    // array to cleanup data basically i want to make it so all post have an array of there comments
+    for (let index = 0; index < data.length; index++) {
+      // check if blog is already inside of array if not then add it to array
+      const found = blogPost.some((temp) => temp.blogid == data[index].blogid);
+      if(!found) {
+         blogPost.push({
+          blogid: data[index].blogid,
+          subject: data[index].subject,
+          description: data[index].description,
+          pdate: data[index].pdate,
+          created_by: data[index].created_by,
+         })
+      }
+
+      blogComments.push({
+        blogid: data[index].blogid,
+        comment: data[index].comments,
+        posted_by: data[index].posted_by
+      })
+    }
+
+    cleanedData = {blogPost, blogComments}
+    // console.log(cleanedData.blogComments[1]);
+
+
+    return res.status(200).json(cleanedData);
   });
 };
 
@@ -140,11 +166,10 @@ export const getTopCommenter = (req, res) => {
     "SELECT COUNT(posted_by) AS comment_count, posted_by FROM comments GROUP BY (posted_by) ORDER BY comment_count DESC;";
   db.query(sqlStatement, (err, data) => {
     if (err) return res.status(409).json(err);
-    console.log(data);
-    
+
     let max = data[0].comment_count;
-    for(let i = 0; i < data.length; i++) {
-      if(data[i].comment_count != max) {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].comment_count != max) {
         break;
       } else {
         values.push(data[i].posted_by);
