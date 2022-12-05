@@ -10,8 +10,10 @@ export const getUsersFollowedByXY = async (req, res) => {
     "SELECT T2.leadername FROM (SELECT * FROM follows WHERE followername = ?) AS T1 LEFT JOIN (SELECT * FROM follows WHERE followername = ?) as T2 ON T1.leadername = T2.leadername;";
   db.query(sqlStatement, [req.body.user1, req.body.user2], (err, data) => {
     if (err) return res.json(err);
-    console.log(data);
-    return res.status(200).json(data);
+    
+    let cleanedData = data.filter((item) => item.leadername != null);
+    console.log(cleanedData);
+    return res.status(200).json(cleanedData);
   });
 };
 
@@ -24,12 +26,29 @@ export const getUsersNeverPost = async (req, res) => {
   });
 };
 
+// first does a query to get blogid's that have never had a negative comment.
+// second gets the list of users associated with those blogid
 export const getUsersWithOnlyPositve = async (req, res) => {
   const sqlStatement =
-    "SELECT Distinct U.created_by FROM blogs AS U LEFT JOIN (SELECT B.created_by FROM comments AS C LEFT JOIN blogs AS B ON C.blogid = B.blogid WHERE C.sentiment = 'negative') AS N ON U.created_by = N.created_by WHERE N.created_by IS NULL;";
+    'Select blogid from comments where blogId not in (select distinct blogId from comments where sentiment = "negative")';
   db.query(sqlStatement, (err, data) => {
     if (err) return res.json(err);
-    return res.status(200).json(data);
+
+    // convert data into a list to remove duplicates
+    let blogIDlist = [...new Set(data)];
+    let blogList = [];
+
+    const sqlStatement2 = "SELECT created_by FROM blogs where blogid in (?);";
+
+    blogIDlist.forEach((item) => {
+      blogList.push(item.blogid);
+    });
+
+    db.query(sqlStatement2, [blogList], (err, data) => {
+      if (err) console.log(err);
+
+      return res.status(200).json(data);
+    });
   });
 };
 
@@ -39,15 +58,14 @@ export const getUsersMatchedHobbies = async (req, res) => {
   db.query(sqlStatement, (err, data) => {
     if (err) return res.json(err);
     let cleanedData = JSON.parse(JSON.stringify(data));
-    
-    for (let index = 0; index < data.length; index++) { 
-        cleanedData[index].usernames.includes(",")
-            ? (cleanedData[index].usernames = data[index].usernames.split(","))
-            : (cleanedData[index].usernames = [data[index].usernames]);
+
+    for (let index = 0; index < data.length; index++) {
+      cleanedData[index].usernames.includes(",")
+        ? (cleanedData[index].usernames = data[index].usernames.split(","))
+        : (cleanedData[index].usernames = [data[index].usernames]);
     }
 
-    cleanedData = cleanedData.filter(item => item.usernames.length > 1);
-
+    cleanedData = cleanedData.filter((item) => item.usernames.length > 1);
 
     return res.status(200).json(cleanedData);
   });
